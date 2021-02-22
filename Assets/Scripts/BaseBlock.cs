@@ -5,23 +5,23 @@ using UnityEngine;
 public class BaseBlock : MonoBehaviour
 {
     
-    float hp = 10.0f;
+    public float hp = 10.0f;
 
-    public float Hp
+    public void Damage(float amount)
     {
-        get
-        {
-            return hp;
-        }
+        hp -= amount;
 
-        set
+        if (hp <= 0)
         {
-            hp = value;
-            if (hp <= 0)
-             {
-                 Destroy(gameObject);
-             }
+            Die();
         }
+    }
+
+    public void Die()
+    {
+        Destroy(gameObject);
+        GameObject item = Instantiate(Resources.Load<GameObject>($"Items/{this.name}_Item"));
+        item.transform.position = transform.position;
     }
 
 }

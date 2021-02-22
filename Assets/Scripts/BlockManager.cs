@@ -15,11 +15,6 @@ public class BlockManager : MonoBehaviour
         map = GetComponent<Tilemap>();
     }
 
-    void Update()
-    {
-       
-    }
-
     public BaseBlock GetBlockUnderMouse()
     {
         RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
@@ -42,7 +37,7 @@ public class BlockManager : MonoBehaviour
 
         GameObject block = Instantiate(Resources.Load("Blocks/Dirt") as GameObject);
         block.transform.parent = transform;
-        
+
         block.transform.position = map.GetCellCenterWorld(cell);
     }
 }

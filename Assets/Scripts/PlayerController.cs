@@ -24,10 +24,7 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
     }
-    void Start()
-    {
-        
-    }
+    
     void Update()
     {
         horizontalInput = Input.GetAxisRaw("Horizontal");
@@ -95,14 +92,13 @@ public class PlayerController : MonoBehaviour
         attackCooldownFinishTime = Time.time + attackCooldown;
 
         BaseBlock target = BlockManager.Instance.GetBlockUnderMouse();
-        target.Hp -= 4;
-        Debug.Log(target.Hp);
+        target.Damage(4);
     }
 
     void SecondaryAttack()
     {
         attackCooldownFinishTime = Time.time + attackCooldown;
-        
+
         BlockManager.Instance.PlaceBlockUnderMouse();
     }
 }
