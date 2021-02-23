@@ -5,6 +5,7 @@ using UnityEngine;
 public class BaseBlock : MonoBehaviour
 {
     
+    public int item_id = 0;
     public float hp = 10.0f;
 
     public void Damage(float amount)
@@ -20,7 +21,7 @@ public class BaseBlock : MonoBehaviour
     public void Die()
     {
         Destroy(gameObject);
-        GameObject item = Instantiate(Resources.Load<GameObject>($"Items/{this.name}_Item"));
+        GameObject item = Instantiate(Resources.Load<GameObject>($"Items/{Game.Items[item_id]}_Item"));
         item.transform.position = transform.position;
     }
 

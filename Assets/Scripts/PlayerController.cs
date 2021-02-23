@@ -18,13 +18,14 @@ public class PlayerController : MonoBehaviour
     bool isRunning = false;
     bool isGrounded = false;
     float attackCooldownFinishTime;
+    public InventoryItem[] Inventory {get; private set; } = new InventoryItem[20];
 
     void Awake() 
     {
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
     }
-    
+
     void Update()
     {
         horizontalInput = Input.GetAxisRaw("Horizontal");
@@ -91,8 +92,13 @@ public class PlayerController : MonoBehaviour
     {
         attackCooldownFinishTime = Time.time + attackCooldown;
 
+        Debug.Log(Inventory);
+
         BaseBlock target = BlockManager.Instance.GetBlockUnderMouse();
-        target.Damage(4);
+        if (target)
+        {
+            target.Damage(4);
+        }
     }
 
     void SecondaryAttack()
@@ -100,5 +106,38 @@ public class PlayerController : MonoBehaviour
         attackCooldownFinishTime = Time.time + attackCooldown;
 
         BlockManager.Instance.PlaceBlockUnderMouse();
+    }
+
+    public void AddItem(InventoryItem newItem)
+    {
+        foreach (InventoryItem item in Inventory)
+        {
+            if (
+                (item != null) && 
+                (item.item_id == newItem.item_id) && 
+                (item.amount < item.stackSize)
+                )
+            {
+                item.amount += newItem.amount;
+
+                if (item.amount > item.stackSize)
+                {
+                    item.amount = item.stackSize;
+                    newItem.amount = item.amount - item.stackSize;
+                    AddItem(newItem);
+                }
+
+                return;
+            }
+        }
+
+        for (int i = 0; i < Inventory.Length; i++)
+        {
+            if (Inventory[i] == null)
+            {
+                Inventory[i] = newItem;
+                return;
+            }
+        }
     }
 }

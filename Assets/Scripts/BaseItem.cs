@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class BaseItem : MonoBehaviour
 {
+    public int item_id = 0;
+    public int amount = 1;
+    public int stackSize = 64;
 
     Rigidbody2D rb;
 
@@ -14,7 +17,12 @@ public class BaseItem : MonoBehaviour
     
     private void OnTriggerEnter2D(Collider2D other)
     {
-        Destroy(gameObject);
+        if (other.CompareTag("ItemPicker"))
+        {
+            Destroy(gameObject);
+            PlayerController playerController = other.gameObject.GetComponent<PlayerController>();
+            playerController.AddItem(new InventoryItem(item_id, amount, stackSize));
+        }        
     }
 
     void FixedUpdate()
