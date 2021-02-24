@@ -8,11 +8,25 @@ public class BaseBlock : MonoBehaviour
     public int item_id = 0;
     public float hp = 10.0f;
 
+    float currentHp;
+    SpriteMask spriteMask;
+
+    void Awake()
+    {
+        spriteMask = GetComponent<SpriteMask>();
+        currentHp = hp;
+    }
+
     public void Damage(float amount)
     {
-        hp -= amount;
+        currentHp -= amount;
 
-        if (hp <= 0)
+        // spriteIndex = max hp: 0 -> 0hp: 4
+        int spriteIndex = (int) Mathf.Floor((1 - (currentHp / hp)) * 5);
+
+        spriteMask.sprite = Resources.Load<Sprite>($"Sprites/Particles/DamagedBlockMask_{spriteIndex}");
+
+        if (currentHp <= 0)
         {
             Die();
         }
