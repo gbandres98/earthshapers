@@ -17,9 +17,12 @@ public class BaseCharacter : MonoBehaviour
 
     Rigidbody2D rb;
     Animator animator;
+
+
     bool isGrounded = false;
     float attackCooldownFinishTime;
     public InventoryItem[] Inventory {get; private set; } = new InventoryItem[6];
+
 
     void Awake() 
     {
@@ -30,6 +33,8 @@ public class BaseCharacter : MonoBehaviour
     void Update()
     { 
         isGrounded = Physics2D.Raycast(transform.position, Vector2.down, 1f, groundLayer);
+        Debug.Log(MouseNotInCharacterRange());
+        Debug.Log(DistanceToThecursor());
     }
 
     void FixedUpdate() {
@@ -75,13 +80,14 @@ public class BaseCharacter : MonoBehaviour
 
     public void PrimaryAttack()
     {
+
         if (Time.time < attackCooldownFinishTime)
             return;
 
         attackCooldownFinishTime = Time.time + attackCooldown;
 
         BaseBlock target = BlockManager.Instance.GetBlockUnderMouse();
-        if (target)
+        if (target && ! MouseNotInCharacterRange())
         {
             target.Damage(4);
         }
@@ -94,7 +100,7 @@ public class BaseCharacter : MonoBehaviour
 
         attackCooldownFinishTime = Time.time + attackCooldown;
 
-        if (RemoveItem(1)) {
+        if (MouseNotInCharacterRange() && RemoveItem(1)) {
             BlockManager.Instance.PlaceBlockUnderMouse();
         }        
     }
@@ -150,4 +156,19 @@ public class BaseCharacter : MonoBehaviour
 
         return false;
     }
+
+    public bool MouseNotInCharacterRange()
+    {
+        Vector3 pos = transform.position;
+        Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        return (Vector3.Distance(pos, mousePos)- 10) >= 0.1;
+    } 
+
+    public double DistanceToThecursor()
+    {
+        Vector3 pos = transform.position;
+        Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        return (Vector3.Distance(pos, mousePos)- 10);
+    }
+    
 }
