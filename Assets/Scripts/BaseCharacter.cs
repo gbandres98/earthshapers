@@ -19,7 +19,7 @@ public class BaseCharacter : MonoBehaviour
     Animator animator;
     bool isGrounded = false;
     float attackCooldownFinishTime;
-    public InventoryItem[] Inventory {get; private set; } = new InventoryItem[20];
+    public InventoryItem[] Inventory {get; private set; } = new InventoryItem[6];
 
     void Awake() 
     {
@@ -94,7 +94,9 @@ public class BaseCharacter : MonoBehaviour
 
         attackCooldownFinishTime = Time.time + attackCooldown;
 
-        BlockManager.Instance.PlaceBlockUnderMouse();
+        if (RemoveItem(1)) {
+            BlockManager.Instance.PlaceBlockUnderMouse();
+        }        
     }
 
     public void AddItem(InventoryItem newItem)
@@ -111,8 +113,8 @@ public class BaseCharacter : MonoBehaviour
 
                 if (item.amount > item.stackSize)
                 {
-                    item.amount = item.stackSize;
                     newItem.amount = item.amount - item.stackSize;
+                    item.amount = item.stackSize;                    
                     AddItem(newItem);
                 }
 
@@ -128,5 +130,24 @@ public class BaseCharacter : MonoBehaviour
                 return;
             }
         }
+    }
+
+    public bool RemoveItem(int item_id)
+    {
+        for (int i = 0; i < Inventory.Length; i++)
+        {
+            if (Inventory[i] != null && Inventory[i].item_id == item_id)
+            {
+                Inventory[i].amount -= 1;
+                if (Inventory[i].amount <= 0)
+                {
+                    Inventory[i] = null;
+                }
+
+                return true;
+            }
+        }
+
+        return false;
     }
 }

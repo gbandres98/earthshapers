@@ -5,10 +5,10 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
 
-    private BaseCharacter character;
-    private float horizontalInput;
+    BaseCharacter character;
+    float horizontalInput;
 
-    void Awake()
+    void Start()
     {
         character = GetComponent<BaseCharacter>();
     }
