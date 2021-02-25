@@ -21,12 +21,12 @@ public class PlayerController : MonoBehaviour
             character.Jump();
         }
 
-        if (Input.GetMouseButton(0))
+        if (Input.GetMouseButton(0) && MouseDistanceToPlayer() < 200f)
         {
             character.PrimaryAttack();
         }
 
-        if (Input.GetMouseButton(1))
+        if (Input.GetMouseButton(1) && MouseDistanceToPlayer() > 15f && MouseDistanceToPlayer() < 200f)
         {
             character.SecondaryAttack();
         }
@@ -35,5 +35,12 @@ public class PlayerController : MonoBehaviour
     private void FixedUpdate()
     {
         character.Move(horizontalInput);
+    }
+
+    public float MouseDistanceToPlayer()
+    {
+        Vector2 pos = Camera.main.WorldToScreenPoint(transform.position);
+        Vector2 mousePos = Input.mousePosition;
+        return (mousePos - pos).magnitude;
     }
 }

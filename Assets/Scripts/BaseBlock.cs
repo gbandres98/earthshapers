@@ -6,16 +6,20 @@ public class BaseBlock : MonoBehaviour
     public float hp = 10.0f;
     private float currentHp;
     private SpriteMask spriteMask;
+    private new ParticleSystem particleSystem;
 
     private void Awake()
     {
         spriteMask = GetComponent<SpriteMask>();
+        particleSystem = GetComponent<ParticleSystem>();
         currentHp = hp;
     }
 
     public void Damage(float amount)
     {
         currentHp -= amount;
+
+        particleSystem.Play();
 
         // spriteIndex = max hp: 0 -> 0hp: 4
         int spriteIndex = (int)Mathf.Floor((1 - (currentHp / hp)) * 5);
