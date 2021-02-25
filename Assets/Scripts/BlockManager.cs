@@ -31,7 +31,6 @@ public class BlockManager : MonoBehaviour
         return null;
     }
 
-
     public void PlaceBlockUnderMouse()
     {
         if (GetBlockUnderMouse())

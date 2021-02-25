@@ -17,12 +17,9 @@ public class BaseCharacter : MonoBehaviour
 
     Rigidbody2D rb;
     Animator animator;
-
-
     bool isGrounded = false;
     float attackCooldownFinishTime;
     public InventoryItem[] Inventory {get; private set; } = new InventoryItem[6];
-
 
     void Awake() 
     {
@@ -78,7 +75,6 @@ public class BaseCharacter : MonoBehaviour
 
     public void PrimaryAttack()
     {
-
         if (Time.time < attackCooldownFinishTime)
             return;
 
