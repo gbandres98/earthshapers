@@ -1,41 +1,39 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    private BaseCharacter character;
+    private float horizontalInput;
 
-    BaseCharacter character;
-    float horizontalInput;
-
-    void Start()
+    private void Start()
     {
         character = GetComponent<BaseCharacter>();
     }
 
-    void Update()
+    private void Update()
     {
         horizontalInput = Input.GetAxisRaw("Horizontal");
 
         character.isRunning = Input.GetKey(KeyCode.LeftShift);
 
-        if(Input.GetButtonDown("Jump"))
+        if (Input.GetButtonDown("Jump"))
         {
             character.Jump();
         }
 
-        if(Input.GetMouseButton(0))
+        if (Input.GetMouseButton(0))
         {
             character.PrimaryAttack();
         }
 
-        if(Input.GetMouseButton(1))
+        if (Input.GetMouseButton(1))
         {
             character.SecondaryAttack();
         }
     }
 
-    void FixedUpdate() {
-        character.Move(horizontalInput);    
+    private void FixedUpdate()
+    {
+        character.Move(horizontalInput);
     }
 }

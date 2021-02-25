@@ -1,0 +1,8 @@
+{
+    "recommendations": [
+        "ms-dotnettools.csharp",
+        "josefpihrt-vscode.roslynator",
+        "Unity.unity-debug",
+        "fernandoescolar.vscode-solution-explorer"
+    ]
+}

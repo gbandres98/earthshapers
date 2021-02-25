@@ -1,15 +1,11 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Tilemaps;
 public class BlockManager : MonoBehaviour
 {
-    
     public static BlockManager Instance;
+    private Tilemap map;
 
-    Tilemap map;
-
-    void Awake()
+    private void Awake()
     {
         Instance = this;
         map = GetComponent<Tilemap>();
@@ -37,7 +33,7 @@ public class BlockManager : MonoBehaviour
         {
             return;
         }
-        
+
         Vector3Int cell = map.WorldToCell(Camera.main.ScreenToWorldPoint(Input.mousePosition));
         GameObject block = Instantiate(Resources.Load("Blocks/Dirt") as GameObject);
         block.name = "Dirt";

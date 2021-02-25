@@ -1,43 +1,40 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class BaseCharacter : MonoBehaviour
 {
-
     public float speed = 300.0f;
     public float runSpeedModifier = 2.0f;
     public LayerMask groundLayer;
     public float jumpForce = 9.0f;
     public float attackCooldown = 1.0f;
     public float attackDamage = 4;
-    
+
     [HideInInspector]
     public bool isRunning = false;
+    private Rigidbody2D rb;
+    private Animator animator;
+    private bool isGrounded = false;
+    private float attackCooldownFinishTime;
+    public InventoryItem[] Inventory { get; } = new InventoryItem[6];
 
-    Rigidbody2D rb;
-    Animator animator;
-    bool isGrounded = false;
-    float attackCooldownFinishTime;
-    public InventoryItem[] Inventory {get; private set; } = new InventoryItem[6];
-
-    void Awake() 
+    private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
     }
 
-    void Update()
-    { 
+    private void Update()
+    {
         isGrounded = Physics2D.Raycast(transform.position, Vector2.down, 1f, groundLayer);
     }
 
-    void FixedUpdate() {
+    private void FixedUpdate()
+    {
         Animate();
     }
 
-    void Animate()
-    {        
+    private void Animate()
+    {
         animator.SetFloat("xSpeed", Mathf.Abs(rb.velocity.x));
         animator.SetFloat("ySpeed", rb.velocity.y);
         animator.SetBool("isGrounded", isGrounded);
@@ -47,17 +44,20 @@ public class BaseCharacter : MonoBehaviour
     {
         float normalized = direction * speed * Time.deltaTime;
         if (isRunning)
+        {
             normalized *= runSpeedModifier;
+        }
 
         rb.velocity = new Vector2(normalized, rb.velocity.y);
 
         Vector3 currentScale = transform.localScale;
         bool facingRight = currentScale.x > 0;
 
-        if(facingRight && direction < 0)
+        if (facingRight && direction < 0)
         {
             currentScale.x = -1 * Mathf.Abs(currentScale.x);
-        } else if(!facingRight && direction > 0)
+        }
+        else if (!facingRight && direction > 0)
         {
             currentScale.x = Mathf.Abs(currentScale.x);
         }
@@ -76,12 +76,14 @@ public class BaseCharacter : MonoBehaviour
     public void PrimaryAttack()
     {
         if (Time.time < attackCooldownFinishTime)
+        {
             return;
+        }
 
         attackCooldownFinishTime = Time.time + attackCooldown;
 
         BaseBlock target = BlockManager.Instance.GetBlockUnderMouse();
-        if (target && ! MouseNotInCharacterRange())
+        if (target && !MouseNotInCharacterRange())
         {
             target.Damage(4);
         }
@@ -90,13 +92,16 @@ public class BaseCharacter : MonoBehaviour
     public void SecondaryAttack()
     {
         if (Time.time < attackCooldownFinishTime)
+        {
             return;
+        }
 
         attackCooldownFinishTime = Time.time + attackCooldown;
 
-        if (MouseNotInCharacterRange() && RemoveItem(1)) {
+        if (MouseNotInCharacterRange() && RemoveItem(1))
+        {
             BlockManager.Instance.PlaceBlockUnderMouse();
-        }        
+        }
     }
 
     public void AddItem(InventoryItem newItem)
@@ -104,8 +109,8 @@ public class BaseCharacter : MonoBehaviour
         foreach (InventoryItem item in Inventory)
         {
             if (
-                (item != null) && 
-                (item.item_id == newItem.item_id) && 
+                (item != null) &&
+                (item.item_id == newItem.item_id) &&
                 (item.amount < item.stackSize)
                 )
             {
@@ -114,7 +119,7 @@ public class BaseCharacter : MonoBehaviour
                 if (item.amount > item.stackSize)
                 {
                     newItem.amount = item.amount - item.stackSize;
-                    item.amount = item.stackSize;                    
+                    item.amount = item.stackSize;
                     AddItem(newItem);
                 }
 
@@ -138,7 +143,7 @@ public class BaseCharacter : MonoBehaviour
         {
             if (Inventory[i] != null && Inventory[i].item_id == item_id)
             {
-                Inventory[i].amount -= 1;
+                Inventory[i].amount--;
                 if (Inventory[i].amount <= 0)
                 {
                     Inventory[i] = null;
@@ -155,6 +160,6 @@ public class BaseCharacter : MonoBehaviour
     {
         Vector3 pos = transform.position;
         Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        return (Vector3.Distance(pos, mousePos)- 10) >= 0.1;
-    } 
+        return (Vector3.Distance(pos, mousePos) - 10) >= 0.1;
+    }
 }

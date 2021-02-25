@@ -1,0 +1,13 @@
+﻿[*.cs]
+
+# Default severity for all analyzer diagnostics
+dotnet_analyzer_diagnostic.severity = error
+
+# IDE0051: Remove unused private members
+dotnet_diagnostic.IDE0051.severity = none
+dotnet_diagnostic.RCS1110.severity = none
+dotnet_diagnostic.RCS1129.severity = none
+dotnet_diagnostic.RCS1213.severity = none
+dotnet_diagnostic.RCS1124.severity = none
+dotnet_diagnostic.CS8321.severity = none
+dotnet_diagnostic.IDE0090.severity = none

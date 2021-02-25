@@ -1,20 +1,17 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class BaseItem : MonoBehaviour
 {
     public int item_id = 0;
     public int amount = 1;
     public int stackSize = 64;
+    private Rigidbody2D rb;
 
-    Rigidbody2D rb;
-
-    void Awake() 
+    private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
     }
-    
+
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("ItemPicker"))
@@ -22,10 +19,10 @@ public class BaseItem : MonoBehaviour
             Destroy(gameObject);
             BaseCharacter character = other.gameObject.GetComponent<BaseCharacter>();
             character.AddItem(new InventoryItem(item_id, amount, stackSize));
-        }        
+        }
     }
 
-    void FixedUpdate()
+    private void FixedUpdate()
     {
         GameObject[] itemPickers = GameObject.FindGameObjectsWithTag("ItemPicker");
 
@@ -39,5 +36,4 @@ public class BaseItem : MonoBehaviour
             }
         }
     }
-
 }
