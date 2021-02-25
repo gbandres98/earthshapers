@@ -16,9 +16,10 @@ public class WorldGen : MonoBehaviour
 
     public float stretchFactor = 0.01f;
 
+    private int[,] worldMatrix;
     private void Start()
     {
-        int[,] worldMatrix = GenerateWorld();
+        GenerateWorld();
         string[] datos = new string[worldHeight];
 
         for (int i = 0; i < worldHeight; i++)
@@ -27,6 +28,7 @@ public class WorldGen : MonoBehaviour
             for (int j = 0; j < worldWidth; j++)
             {
                 row += worldMatrix[j, i];
+                //aqui hay que unir cada fila en un solo string
             }
             datos[worldHeight - i - 1] = row;
         }
@@ -34,18 +36,21 @@ public class WorldGen : MonoBehaviour
         File.WriteAllLines("./map.txt", datos, Encoding.UTF8);
     }
 
-    private int[,] GenerateWorld()
+    private void GenerateWorld()
     {
         int effectiveMaxHeight = worldHeight - reservedTop - reservedBottom;
-
+        /*
+     guarda cada posicion en el eje x, emparejada con la altura obtenida con el perlinNoise
+     ahora veo que una lista es suficiente, no hace falta un diccionario.
+      */
         List<int> heightMap = new List<int>();
-        int[,] worldMatrix;
+
         for (int i = 0; i < worldWidth; i++)
-        {
+        {           /*este sample esta normalizado, va de 0 a 1*/
             float sample = Mathf.PerlinNoise(xSeed + (i * stretchFactor), ySeed);
-
+            /*Lo escalo a la altura permitida para la dirt*/
             int scaledSample = (int)Math.Round((sample * effectiveMaxHeight) + reservedBottom);
-
+            /* se añade al mapa de alturas*/
             heightMap.Add(scaledSample);
         }
 
@@ -58,6 +63,5 @@ public class WorldGen : MonoBehaviour
                 worldMatrix[i, j] = j < heightMap[i] ? 1 : 0;
             }
         }
-        return worldMatrix;
     }
 }
