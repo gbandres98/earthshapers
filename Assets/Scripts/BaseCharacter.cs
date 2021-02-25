@@ -33,8 +33,6 @@ public class BaseCharacter : MonoBehaviour
     void Update()
     { 
         isGrounded = Physics2D.Raycast(transform.position, Vector2.down, 1f, groundLayer);
-        Debug.Log(MouseNotInCharacterRange());
-        Debug.Log(DistanceToThecursor());
     }
 
     void FixedUpdate() {
@@ -163,12 +161,4 @@ public class BaseCharacter : MonoBehaviour
         Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         return (Vector3.Distance(pos, mousePos)- 10) >= 0.1;
     } 
-
-    public double DistanceToThecursor()
-    {
-        Vector3 pos = transform.position;
-        Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        return (Vector3.Distance(pos, mousePos)- 10);
-    }
-    
 }
