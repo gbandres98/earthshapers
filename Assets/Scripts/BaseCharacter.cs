@@ -81,7 +81,7 @@ public class BaseCharacter : MonoBehaviour
         attackCooldownFinishTime = Time.time + attackCooldown;
 
         BaseBlock target = BlockManager.Instance.GetBlockUnderMouse();
-        if (target)
+        if (target && ! MouseNotInCharacterRange())
         {
             target.Damage(4);
         }
@@ -94,7 +94,7 @@ public class BaseCharacter : MonoBehaviour
 
         attackCooldownFinishTime = Time.time + attackCooldown;
 
-        if (RemoveItem(1)) {
+        if (MouseNotInCharacterRange() && RemoveItem(1)) {
             BlockManager.Instance.PlaceBlockUnderMouse();
         }        
     }
@@ -150,4 +150,11 @@ public class BaseCharacter : MonoBehaviour
 
         return false;
     }
+
+    public bool MouseNotInCharacterRange()
+    {
+        Vector3 pos = transform.position;
+        Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        return (Vector3.Distance(pos, mousePos)- 10) >= 0.1;
+    } 
 }
