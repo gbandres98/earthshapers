@@ -27,11 +27,11 @@ public class BlockManager : MonoBehaviour
         return null;
     }
 
-    public void PlaceBlockUnderMouse()
+    public bool PlaceBlockUnderMouse()
     {
         if (GetBlockUnderMouse())
         {
-            return;
+            return false;
         }
 
         Vector3Int cell = map.WorldToCell(Camera.main.ScreenToWorldPoint(Input.mousePosition));
@@ -40,5 +40,7 @@ public class BlockManager : MonoBehaviour
         block.transform.parent = transform;
 
         block.transform.position = map.GetCellCenterWorld(cell);
+
+        return true;
     }
 }

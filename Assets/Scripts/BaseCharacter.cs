@@ -91,16 +91,9 @@ public class BaseCharacter : MonoBehaviour
 
     public void SecondaryAttack()
     {
-        if (Time.time < attackCooldownFinishTime)
+        if (HasItem(1) && BlockManager.Instance.PlaceBlockUnderMouse())
         {
-            return;
-        }
-
-        attackCooldownFinishTime = Time.time + attackCooldown;
-
-        if (RemoveItem(1))
-        {
-            BlockManager.Instance.PlaceBlockUnderMouse();
+            RemoveItem(1);
         }
     }
 
@@ -137,7 +130,20 @@ public class BaseCharacter : MonoBehaviour
         }
     }
 
-    public bool RemoveItem(int item_id)
+    public bool HasItem(int item_id)
+    {
+        for (int i = 0; i < Inventory.Length; i++)
+        {
+            if (Inventory[i] != null && Inventory[i].item_id == item_id)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public void RemoveItem(int item_id)
     {
         for (int i = 0; i < Inventory.Length; i++)
         {
@@ -148,12 +154,8 @@ public class BaseCharacter : MonoBehaviour
                 {
                     Inventory[i] = null;
                 }
-
-                return true;
             }
         }
-
-        return false;
     }
 
     private bool CheckGrounded()
