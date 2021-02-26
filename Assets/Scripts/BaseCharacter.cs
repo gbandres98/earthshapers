@@ -25,7 +25,7 @@ public class BaseCharacter : MonoBehaviour
 
     private void Update()
     {
-        isGrounded = Physics2D.Raycast(transform.position, Vector2.down, 1f, groundLayer);
+        isGrounded = CheckGrounded();
     }
 
     private void FixedUpdate()
@@ -154,5 +154,16 @@ public class BaseCharacter : MonoBehaviour
         }
 
         return false;
+    }
+
+    private bool CheckGrounded()
+    {
+        bool leftGrounded = Physics2D.Raycast(transform.position + (Vector3.left / 2), Vector2.down, 2f, groundLayer);
+        bool rightGrounded = Physics2D.Raycast(transform.position + (Vector3.right / 2), Vector2.down, 2f, groundLayer);
+
+        Debug.Log($"Left: {leftGrounded}");
+        Debug.Log($"Right: {rightGrounded}");
+
+        return leftGrounded || rightGrounded;
     }
 }
