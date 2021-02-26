@@ -35,7 +35,10 @@ public class BaseBlock : MonoBehaviour
     public void Die()
     {
         Destroy(gameObject);
-        GameObject item = Instantiate(Resources.Load<GameObject>($"Items/{Game.Items[item_id]}_Item"));
-        item.transform.position = transform.position;
+        if (Game.Items.ContainsKey(item_id))
+        {
+            GameObject item = Instantiate(Resources.Load<GameObject>($"Items/{Game.Items[item_id]}_Item"));
+            item.transform.position = transform.position;
+        }
     }
 }
