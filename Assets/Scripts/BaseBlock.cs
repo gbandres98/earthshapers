@@ -2,7 +2,7 @@
 
 public class BaseBlock : MonoBehaviour
 {
-    public int item_id = 0;
+    public int itemID = 0;
     public float hp = 10.0f;
     private float currentHp;
     private SpriteMask spriteMask;
@@ -35,9 +35,9 @@ public class BaseBlock : MonoBehaviour
     public void Die()
     {
         Destroy(gameObject);
-        if (Game.Items.ContainsKey(item_id))
+        if (Game.Items.ContainsKey(itemID))
         {
-            GameObject item = Instantiate(Resources.Load<GameObject>($"Items/{Game.Items[item_id]}_Item"));
+            GameObject item = Instantiate(Resources.Load<GameObject>($"Items/{Game.Items[itemID]}_Item"));
             item.transform.position = transform.position;
         }
     }

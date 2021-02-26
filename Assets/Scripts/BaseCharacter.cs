@@ -91,7 +91,7 @@ public class BaseCharacter : MonoBehaviour
 
     public void SecondaryAttack()
     {
-        if (HasItem(1) && BlockManager.Instance.PlaceBlockUnderMouse())
+        if (HasItem(1) && BlockManager.Instance.PlaceBlockUnderMouse(1))
         {
             RemoveItem(1);
         }
@@ -103,7 +103,7 @@ public class BaseCharacter : MonoBehaviour
         {
             if (
                 (item != null) &&
-                (item.item_id == newItem.item_id) &&
+                (item.itemID == newItem.itemID) &&
                 (item.amount < item.stackSize)
                 )
             {
@@ -130,11 +130,11 @@ public class BaseCharacter : MonoBehaviour
         }
     }
 
-    public bool HasItem(int item_id)
+    public bool HasItem(int itemID)
     {
         for (int i = 0; i < Inventory.Length; i++)
         {
-            if (Inventory[i] != null && Inventory[i].item_id == item_id)
+            if (Inventory[i] != null && Inventory[i].itemID == itemID)
             {
                 return true;
             }
@@ -143,11 +143,11 @@ public class BaseCharacter : MonoBehaviour
         return false;
     }
 
-    public void RemoveItem(int item_id)
+    public void RemoveItem(int itemID)
     {
         for (int i = 0; i < Inventory.Length; i++)
         {
-            if (Inventory[i] != null && Inventory[i].item_id == item_id)
+            if (Inventory[i] != null && Inventory[i].itemID == itemID)
             {
                 Inventory[i].amount--;
                 if (Inventory[i].amount <= 0)
@@ -162,9 +162,6 @@ public class BaseCharacter : MonoBehaviour
     {
         bool leftGrounded = Physics2D.Raycast(transform.position + (Vector3.left / 2), Vector2.down, 2f, groundLayer);
         bool rightGrounded = Physics2D.Raycast(transform.position + (Vector3.right / 2), Vector2.down, 2f, groundLayer);
-
-        Debug.Log($"Left: {leftGrounded}");
-        Debug.Log($"Right: {rightGrounded}");
 
         return leftGrounded || rightGrounded;
     }

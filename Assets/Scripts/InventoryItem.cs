@@ -1,13 +1,13 @@
 ﻿
 public class InventoryItem
 {
-    public int item_id;
+    public int itemID;
     public int amount;
     public int stackSize;
 
-    public InventoryItem(int item_id, int amount, int stackSize)
+    public InventoryItem(int itemID, int amount, int stackSize)
     {
-        this.item_id = item_id;
+        this.itemID = itemID;
         this.amount = amount;
         this.stackSize = stackSize;
     }

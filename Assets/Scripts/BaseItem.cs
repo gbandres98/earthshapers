@@ -2,7 +2,7 @@
 
 public class BaseItem : MonoBehaviour
 {
-    public int item_id = 0;
+    public int itemID = 0;
     public int amount = 1;
     public int stackSize = 64;
     private Rigidbody2D rb;
@@ -18,7 +18,7 @@ public class BaseItem : MonoBehaviour
         {
             Destroy(gameObject);
             BaseCharacter character = other.gameObject.GetComponent<BaseCharacter>();
-            character.AddItem(new InventoryItem(item_id, amount, stackSize));
+            character.AddItem(new InventoryItem(itemID, amount, stackSize));
         }
     }
 

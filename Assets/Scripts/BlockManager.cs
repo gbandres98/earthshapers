@@ -27,7 +27,7 @@ public class BlockManager : MonoBehaviour
         return null;
     }
 
-    public bool PlaceBlockUnderMouse()
+    public bool PlaceBlockUnderMouse(int itemID)
     {
         if (GetBlockUnderMouse())
         {
@@ -35,8 +35,7 @@ public class BlockManager : MonoBehaviour
         }
 
         Vector3Int cell = map.WorldToCell(Camera.main.ScreenToWorldPoint(Input.mousePosition));
-        GameObject block = Instantiate(Resources.Load("Blocks/Dirt") as GameObject);
-        block.name = "Dirt";
+        GameObject block = Instantiate(Resources.Load($"Blocks/{Game.Items[itemID]}") as GameObject);
         block.transform.parent = transform;
 
         block.transform.position = map.GetCellCenterWorld(cell);
