@@ -7,6 +7,8 @@ public static class Game
         {0, null},
         {1, "Dirt"},
         {2, "Wood"},
-        {101, "Table"}
+        {3, "TreeWood"},
+        {4, "Leaf"},
+        {101, "Table"},
     };
 }

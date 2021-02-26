@@ -33,7 +33,7 @@ public class BaseBlock : MonoBehaviour
         }
     }
 
-    public void Die()
+    public virtual void Die()
     {
         Destroy(gameObject);
         if (Game.Items.ContainsKey(itemID))
