@@ -38,7 +38,8 @@ public class BlockManager : MonoBehaviour
         GameObject block = Instantiate(Resources.Load($"Blocks/{Game.Items[itemID]}") as GameObject);
         block.transform.parent = transform;
 
-        block.transform.position = map.GetCellCenterWorld(cell);
+        Vector3 offset = block.GetComponent<BaseBlock>().placingOffset;
+        block.transform.position = map.GetCellCenterWorld(cell) + offset;
 
         return true;
     }

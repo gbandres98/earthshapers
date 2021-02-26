@@ -4,6 +4,7 @@ public class BaseBlock : MonoBehaviour
 {
     public int itemID = 0;
     public float hp = 10.0f;
+    public Vector2 placingOffset;
     private float currentHp;
     private SpriteMask spriteMask;
     private new ParticleSystem particleSystem;

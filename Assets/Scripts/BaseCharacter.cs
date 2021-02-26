@@ -91,9 +91,18 @@ public class BaseCharacter : MonoBehaviour
 
     public void SecondaryAttack()
     {
-        if (HasItem(1) && BlockManager.Instance.PlaceBlockUnderMouse(1))
+        if (Time.time < attackCooldownFinishTime)
         {
-            RemoveItem(1);
+            return;
+        }
+
+        attackCooldownFinishTime = Time.time + attackCooldown;
+
+        const int itemID = 1;
+
+        if (HasItem(itemID) && BlockManager.Instance.PlaceBlockUnderMouse(itemID))
+        {
+            RemoveItem(itemID);
         }
     }
 
@@ -154,6 +163,8 @@ public class BaseCharacter : MonoBehaviour
                 {
                     Inventory[i] = null;
                 }
+
+                return;
             }
         }
     }
