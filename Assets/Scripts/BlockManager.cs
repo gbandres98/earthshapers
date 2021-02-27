@@ -34,13 +34,19 @@ public class BlockManager : MonoBehaviour
             return false;
         }
 
-        Vector3Int cell = map.WorldToCell(Camera.main.ScreenToWorldPoint(Input.mousePosition));
         GameObject block = Instantiate(Resources.Load($"Blocks/{Game.Items[itemID]}") as GameObject);
         block.transform.parent = transform;
 
         Vector3 offset = block.GetComponent<BaseBlock>().placingOffset;
-        block.transform.position = map.GetCellCenterWorld(cell) + offset;
+        block.transform.position = GetBlockCenterUnderMouse() + offset;
 
         return true;
+    }
+
+    public Vector3 GetBlockCenterUnderMouse()
+    {
+        Vector3Int cell = map.WorldToCell(Camera.main.ScreenToWorldPoint(Input.mousePosition));
+
+        return map.GetCellCenterWorld(cell);
     }
 }
