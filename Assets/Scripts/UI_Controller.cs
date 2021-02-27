@@ -6,11 +6,17 @@ public class UI_Controller : MonoBehaviour
     private Camera uiCamera;
 
     private bool characterInfoPanelOpen = false;
+    private Transform blockHighlight;
 
     private void Awake()
     {
         Instance = this;
+    }
+
+    private void Start()
+    {
         uiCamera = GameObject.FindGameObjectWithTag("UICamera").GetComponent<Camera>();
+        blockHighlight = GameObject.FindGameObjectWithTag("BlockHighlight").transform;
     }
 
     private void Update()
@@ -19,6 +25,15 @@ public class UI_Controller : MonoBehaviour
         {
             OpenCharacterInfoPanel();
         }
+
+        PlaceBlockHighlight();
+    }
+
+    private void PlaceBlockHighlight()
+    {
+        Vector3 blockCenter = BlockManager.Instance.GetBlockCenterUnderMouse();
+        Vector3 mouseCanvasPosition = WorldToCanvasPoint(blockCenter);
+        blockHighlight.position = mouseCanvasPosition + new Vector3(0, 0, 360);
     }
 
     private void OpenCharacterInfoPanel()
