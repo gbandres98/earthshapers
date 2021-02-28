@@ -7,7 +7,7 @@ public class InventoryItem
 
     public ToolTypeEnum toolType;
 
-    public InventoryItem(int itemID, int amount, int stackSize, ToolTypeEnum toolType)
+    public InventoryItem(int itemID, int amount = 1, int stackSize = 64, ToolTypeEnum toolType = ToolTypeEnum.NONE)
     {
         this.itemID = itemID;
         this.amount = amount;

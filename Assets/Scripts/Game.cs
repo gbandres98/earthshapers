@@ -16,12 +16,10 @@ public static class Game
 
     public static Dictionary<int, InventoryItem> InventoryItems = new Dictionary<int, InventoryItem>()
     {
-     {1, new InventoryItem(1,1,64,ToolTypeEnum.NONE)},
-     {2, new InventoryItem(2,1,64,ToolTypeEnum.NONE)},
-     {3, new InventoryItem(3,1,64,ToolTypeEnum.NONE)},
-     {4, new InventoryItem(4,1,64,ToolTypeEnum.NONE)},
-     {101, new InventoryItem(101,1,64,ToolTypeEnum.NONE)},
-     {251, new InventoryItem(251,1,1,ToolTypeEnum.SHOVEL)},
-     {252, new InventoryItem(252,1,1,ToolTypeEnum.AXE)}
+     {1, new InventoryItem(1)},
+     {2, new InventoryItem(2)},
+     {101, new InventoryItem(101)},
+     {251, new InventoryItem(251,stackSize: 1,toolType: ToolTypeEnum.SHOVEL)},
+     {252, new InventoryItem(252,stackSize: 1,toolType: ToolTypeEnum.AXE)}
     };
 }
