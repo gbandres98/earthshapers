@@ -15,6 +15,7 @@ MonoBehaviour:
   itemID: 3
   hp: 20
   placingOffset: {x: 0, y: 0}
+  toolTypeNeeded: 1
   breaksWholeTree: 1
 --- !u!1001 &2288119765550334239
 PrefabInstance:

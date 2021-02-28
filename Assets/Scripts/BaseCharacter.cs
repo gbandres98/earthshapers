@@ -85,7 +85,15 @@ public class BaseCharacter : MonoBehaviour
         BaseBlock target = BlockManager.Instance.GetBlockUnderMouse();
         if (target)
         {
-            target.Damage(4);
+            for (int i = 0; i < Inventory.Length; i++)
+            {
+                if (Inventory[i] != null && Inventory[i].toolType == target.toolTypeNeeded)
+                {
+                    target.Damage(attackDamage * 5);
+                    return;
+                }
+            }
+            target.Damage(attackDamage);
         }
     }
 

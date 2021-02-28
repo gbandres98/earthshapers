@@ -40,6 +40,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 746585272205019502, guid: 16dbf18c56704ee4ebdf62af363f3e73,
         type: 3}
+      propertyPath: toolTypeNeeded
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 746585272205019502, guid: 16dbf18c56704ee4ebdf62af363f3e73,
+        type: 3}
       propertyPath: placingOffset.x
       value: 0.5
       objectReference: {fileID: 0}

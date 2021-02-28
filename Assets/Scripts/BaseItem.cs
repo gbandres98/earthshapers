@@ -18,7 +18,7 @@ public class BaseItem : MonoBehaviour
         {
             Destroy(gameObject);
             BaseCharacter character = other.gameObject.GetComponent<BaseCharacter>();
-            character.AddItem(new InventoryItem(itemID, amount, stackSize));
+            character.AddItem(new InventoryItem(Game.InventoryItems[itemID]));
         }
     }
 
