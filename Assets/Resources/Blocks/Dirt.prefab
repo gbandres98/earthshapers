@@ -48,6 +48,11 @@ PrefabInstance:
       propertyPath: block_id
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 746585272205019502, guid: 16dbf18c56704ee4ebdf62af363f3e73,
+        type: 3}
+      propertyPath: toolTypeNeeded
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3249631050329809020, guid: 16dbf18c56704ee4ebdf62af363f3e73,
         type: 3}
       propertyPath: m_RootOrder
