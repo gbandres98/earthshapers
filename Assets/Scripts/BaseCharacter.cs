@@ -40,6 +40,11 @@ public class BaseCharacter : MonoBehaviour
         animator.SetBool("isGrounded", isGrounded);
     }
 
+    public bool GetIsGrounded()
+    {
+        return isGrounded;
+    }
+
     public void Move(float direction)
     {
         float normalized = direction * speed * Time.deltaTime;
