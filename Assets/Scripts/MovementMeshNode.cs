@@ -4,7 +4,6 @@ using UnityEngine;
 public class MovementMeshNode : MonoBehaviour
 {
     public LayerMask GroundLayer;
-    public GlobalMovementMesh FullMesh;
 
     private bool isValid = false;
     private Vector2 position;
@@ -79,13 +78,14 @@ public class MovementMeshNode : MonoBehaviour
 
     private void Start()
     {
-        if (!FullMesh || !IsFree(0, 1) || !IsFree(0, 2))
+        #pragma warning disable IDE0055
+        if (!GlobalMovementMesh.Instance || !IsFree(0, 1) || !IsFree(0, 2))
         {
             isValid = false;
             return;
         }
         isValid = true;
-        FullMesh.AddNode(this);
+        GlobalMovementMesh.Instance.AddNode(this);
         AddConnectionIfValid( 1, 0, new List<Vector2>());
         AddConnectionIfValid(-1, 0, new List<Vector2>());
         // Need jump
