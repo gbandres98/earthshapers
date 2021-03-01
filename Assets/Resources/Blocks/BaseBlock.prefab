@@ -14,6 +14,8 @@ GameObject:
   - component: {fileID: 8153480681712782040}
   - component: {fileID: -4650647996359245307}
   - component: {fileID: -126349912335217108}
+  - component: {fileID: 622506043095482380}
+  - component: {fileID: 7662053978611481006}
   m_Layer: 0
   m_Name: BaseBlock
   m_TagString: Untagged
@@ -97,8 +99,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db11e5b2547481645991c25cd69119ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  item_id: 0
+  itemID: 0
   hp: 10
+  placingOffset: {x: 0, y: 0}
+  toolTypeNeeded: -1
 --- !u!331 &8153480681712782040
 SpriteMask:
   m_ObjectHideFlags: 0
@@ -4927,3 +4931,44 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
+--- !u!114 &622506043095482380
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8072222510999506062}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 02252db34513ef54a8624887753e5835, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GroundLayer:
+    serializedVersion: 2
+    m_Bits: 256
+--- !u!61 &7662053978611481006
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8072222510999506062}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1}
+  m_EdgeRadius: 0
