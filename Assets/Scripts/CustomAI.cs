@@ -17,20 +17,28 @@ public class CustomAI : MonoBehaviour
     private Rigidbody2D rb;
     private BaseCharacter character;
     private Transform t;
+    private Vector3 fallback_target_pos;
 
     private void Start()
     {
+        ChangeObjective(6.5f, -4.5f);
         rb = GetComponent<Rigidbody2D>();
         character = GetComponent<BaseCharacter>();
         t = GetComponent<Transform>();
-        InvokeRepeating("UpdatePath", 0f, 6000000f);
+        InvokeRepeating("UpdatePath", 0f, PathUpdateFrequency);
+    }
+
+    public void ChangeObjective(float x, float y)
+    {
+        target = null;
+        fallback_target_pos = new Vector3(x, y, 0);
     }
 
     private void UpdatePath()
     {
         GlobalMovementMesh mesh = GlobalMovementMesh.Instance;
         MovementMeshNode x = mesh.FindClosestNode(t.position);
-        MovementMeshNode y = mesh.FindClosestNode(target.position);
+        MovementMeshNode y = mesh.FindClosestNode(target != null ? target.position : fallback_target_pos);
         List<MovementMeshNode> l = mesh.GetRoute(x, y);
         if (l != null)
         {
@@ -59,7 +67,7 @@ public class CustomAI : MonoBehaviour
             {
                 if ((nodePosition.x < rb.position.x) && (path[currentWaypoint - 2].GetPosition().x < rb.position.x))
                 {
-                    if (nodePosition.x > (rb.position.x - 1))
+                    if (nodePosition.x > (rb.position.x - 1.5f))
                     {
                         direction = new Vector2(1, 0);
                     }
