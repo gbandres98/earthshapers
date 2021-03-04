@@ -13,7 +13,7 @@ public class CustomAI : MonoBehaviour
     public float JumpSlopeRequirement = .5f;
 
     private int currentWaypoint = 0;
-    private List<MovementMeshNode> path;
+    private List<Vector2> path;
     private Rigidbody2D rb;
     private BaseCharacter character;
     private Transform t;
@@ -21,7 +21,6 @@ public class CustomAI : MonoBehaviour
 
     private void Start()
     {
-        ChangeObjective(6.5f, -4.5f);
         rb = GetComponent<Rigidbody2D>();
         character = GetComponent<BaseCharacter>();
         t = GetComponent<Transform>();
@@ -42,7 +41,11 @@ public class CustomAI : MonoBehaviour
         List<MovementMeshNode> l = mesh.GetRoute(x, y);
         if (l != null)
         {
-            path = l;
+            path = new List<Vector2>();
+            foreach (MovementMeshNode n in l)
+            {
+                path.Add(n.GetPosition());
+            }
             currentWaypoint = 0;
         }
     }
@@ -53,43 +56,56 @@ public class CustomAI : MonoBehaviour
         {
             return;
         }
+        if (currentWaypoint == 0 && Math.Abs(path[0].y - path[1].y) < 0.1f)
+        {
+            currentWaypoint = 1;
+        }
         if (currentWaypoint >= path.Count)
         {
+            // Reached goal, stop
             character.Move(0);
             return;
         }
-        Vector2 nodePosition = path[currentWaypoint].GetPosition() + Vector2.up;
-        Vector2 direction = (nodePosition - rb.position - new Vector2(0, -0.5f)).normalized;
         bool isGrounded = character.GetIsGrounded();
-        if (isGrounded && (direction.y > JumpSlopeRequirement))
+        Vector2 nodePosition = path[currentWaypoint] + Vector2.up;
+        Vector2 aiCenter = rb.position - new Vector2(0, 0.5f);
+        Vector2 vector = nodePosition - aiCenter;
+        int direction = (vector.x > 0) ? 1 : -1;
+        if (vector.y < -0.5f)
         {
-            if ((nodePosition.y - rb.position.y - 0.5f) > 1.5f)
+            // Drop down
+            character.Move(isGrounded ? direction : 0);
+        }
+        else if (isGrounded && (vector.y > JumpSlopeRequirement))
+        {
+            // Jump
+            if ((nodePosition.y - aiCenter.y) <= 1.5f)
             {
-                if ((nodePosition.x < rb.position.x) && (path[currentWaypoint - 2].GetPosition().x < rb.position.x))
-                {
-                    if (nodePosition.x > (rb.position.x - 1.5f))
-                    {
-                        direction = new Vector2(1, 0);
-                    }
-                    else
-                    {
-                        character.Jump();
-                        character.Move(-1);
-                    }
-                }
-                else
-                {
-                    character.Jump();
-                }
+                // Small jump
+                character.Jump();
             }
             else
             {
-                character.Jump();
+                // High jump, need horizontal space to avoid bonking head
+                if (
+                    (direction == -1 && (nodePosition.x > (aiCenter.x - 1.3f))) ||
+                    (direction == 1 && (nodePosition.x < (aiCenter.x + 1.3f)))
+                )
+                {
+                    character.Move(-1 * direction);
+                }
+                else
+                {
+                    character.Move(direction);
+                    character.Jump();
+                }
             }
         }
-
-        character.Move((direction.x < 0) ? -1 : 1);
-        if (Math.Abs(nodePosition.x - rb.position.x) < NextWaypointDistance && direction.y < 3f)
+        else
+        {
+            character.Move(direction);
+        }
+        if (Vector2.Distance(nodePosition, aiCenter) < NextWaypointDistance)
         {
             ++currentWaypoint;
         }
