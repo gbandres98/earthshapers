@@ -1,15 +1,10 @@
 ﻿using System.IO;
 using System.Text;
 using System;
-//using System.Linq;
-//using System.Collections.Generic;
 using UnityEngine;
 
 public class WorldGen : MonoBehaviour
 {
-    /**
-    Pon las cuevas primero, y luego dibuja la superficie.
-    */
     public int seed = 0;
     public int worldWidth = 500;
     public int worldHeight = 100;
