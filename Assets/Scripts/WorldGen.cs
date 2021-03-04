@@ -24,8 +24,6 @@ public class WorldGen : MonoBehaviour
         yHillSeed = xHillSeed * xHillSeed % primeBase;
         xCaveSeed = yHillSeed * yHillSeed % primeBase;
         yCaveSeed = xCaveSeed * xCaveSeed % primeBase;
-        Debug.Log(xCaveSeed);
-        Debug.Log(yCaveSeed);
     }
 
     private void Start()
@@ -39,7 +37,7 @@ public class WorldGen : MonoBehaviour
         WriteFile("./map2.txt", worldMatrix);
     }
 
-    private void Fill<T>(T[,] matrix, T value)
+    private void Fill(int[,] matrix, int value)
     {
         for (int i = 0; i < matrix.GetLength(0); i++)
         {
