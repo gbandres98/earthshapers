@@ -36,10 +36,9 @@ public class GlobalMovementMesh : MonoBehaviour
         return result;
     }
 
-    private int Heuristic(MovementMeshNode s, MovementMeshNode f)
+    private float Heuristic(MovementMeshNode s, MovementMeshNode f)
     {
-        // TODO
-        return 1;
+        return Vector2.Distance(s.GetPosition(), f.GetPosition());
     }
 
     private List<MovementMeshNode> RebuildPath(Dictionary<MovementMeshNode, MovementMeshNode> cameFrom, MovementMeshNode last)
@@ -63,8 +62,8 @@ public class GlobalMovementMesh : MonoBehaviour
         }
         SortedSet<MovementMeshNode> openSet = new SortedSet<MovementMeshNode>(new BestNextNode(goal)) { start };
         Dictionary<MovementMeshNode, MovementMeshNode> cameFrom = new Dictionary<MovementMeshNode, MovementMeshNode>();
-        Dictionary<MovementMeshNode, int> costSoFar = new Dictionary<MovementMeshNode, int>() { { start, 0 } };
-        Dictionary<MovementMeshNode, int> expectedCost = new Dictionary<MovementMeshNode, int>() { { start, Heuristic(start, goal) } };
+        Dictionary<MovementMeshNode, float> costSoFar = new Dictionary<MovementMeshNode, float>() { { start, 0 } };
+        Dictionary<MovementMeshNode, float> expectedCost = new Dictionary<MovementMeshNode, float>() { { start, Heuristic(start, goal) } };
 
         while (openSet.Count > 0)
         {
@@ -76,7 +75,7 @@ public class GlobalMovementMesh : MonoBehaviour
             _ = openSet.Remove(current);
             foreach (MovementMeshNode n in current.GetConnected())
             {
-                int next_score = costSoFar[current] + 1;
+                float next_score = costSoFar[current] + 1;
                 if (!costSoFar.ContainsKey(n) || (next_score < costSoFar[n]))
                 {
                     cameFrom[n] = current;
