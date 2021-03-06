@@ -14,6 +14,7 @@ public class BaseCharacter : MonoBehaviour
     private Rigidbody2D rb;
     private Animator animator;
     private bool isGrounded = false;
+    private bool jumpInCooldown = false;
     private float attackCooldownFinishTime;
     public InventoryItem[] Inventory { get; } = new InventoryItem[6];
 
@@ -70,13 +71,21 @@ public class BaseCharacter : MonoBehaviour
         transform.localScale = currentScale;
     }
 
+#pragma warning disable IDE0058
     public void Jump()
     {
-        if (isGrounded)
+        if (isGrounded && !jumpInCooldown)
         {
             rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+            jumpInCooldown = true;
+            System.Threading.Tasks.Task.Factory.StartNew(() =>
+            {
+                System.Threading.Thread.Sleep(100);
+                jumpInCooldown = false;
+            });
         }
     }
+#pragma warning restore IDE0058
 
     public void PrimaryAttack()
     {
