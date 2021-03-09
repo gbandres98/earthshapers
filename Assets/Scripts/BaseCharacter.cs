@@ -13,7 +13,7 @@ public class BaseCharacter : MonoBehaviour
     public bool isRunning = false;
     private Rigidbody2D rb;
     private Animator animator;
-    private bool isGrounded = false;
+    public bool IsGrounded { get; private set; }
     private bool jumpInCooldown = false;
     private float attackCooldownFinishTime;
     public InventoryItem[] Inventory { get; } = new InventoryItem[6];
@@ -26,7 +26,7 @@ public class BaseCharacter : MonoBehaviour
 
     private void Update()
     {
-        isGrounded = CheckGrounded();
+        IsGrounded = CheckGrounded();
     }
 
     private void FixedUpdate()
@@ -38,12 +38,7 @@ public class BaseCharacter : MonoBehaviour
     {
         animator.SetFloat("xSpeed", Mathf.Abs(rb.velocity.x));
         animator.SetFloat("ySpeed", rb.velocity.y);
-        animator.SetBool("isGrounded", isGrounded);
-    }
-
-    public bool GetIsGrounded()
-    {
-        return isGrounded;
+        animator.SetBool("isGrounded", IsGrounded);
     }
 
     public void Move(float direction)
@@ -74,7 +69,7 @@ public class BaseCharacter : MonoBehaviour
 #pragma warning disable IDE0058
     public void Jump()
     {
-        if (isGrounded && !jumpInCooldown)
+        if (IsGrounded && !jumpInCooldown)
         {
             rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
             jumpInCooldown = true;

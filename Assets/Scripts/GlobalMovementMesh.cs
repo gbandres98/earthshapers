@@ -64,9 +64,11 @@ public class GlobalMovementMesh : MonoBehaviour
         Dictionary<MovementMeshNode, MovementMeshNode> cameFrom = new Dictionary<MovementMeshNode, MovementMeshNode>();
         Dictionary<MovementMeshNode, float> costSoFar = new Dictionary<MovementMeshNode, float>() { { start, 0 } };
         Dictionary<MovementMeshNode, float> expectedCost = new Dictionary<MovementMeshNode, float>() { { start, Heuristic(start, goal) } };
+        int i = 0;
 
-        while (openSet.Count > 0)
+        while (openSet.Count > 0 && i < 900)
         {
+            i++;
             MovementMeshNode current = openSet.Max;
             if (current == goal)
             {
@@ -90,13 +92,9 @@ public class GlobalMovementMesh : MonoBehaviour
         }
         return null;
     }
-
-    private void Update()
-    {
-    }
 }
 
-public class BestNextNode : IComparer<MovementMeshNode>
+public class BestNextNode : Comparer<MovementMeshNode>
 {
     private Vector2 d;
 
@@ -105,7 +103,7 @@ public class BestNextNode : IComparer<MovementMeshNode>
         d = node.GetPosition();
     }
 
-    int IComparer<MovementMeshNode>.Compare(MovementMeshNode x, MovementMeshNode y)
+    public override int Compare(MovementMeshNode x, MovementMeshNode y)
     {
         if (x == y)
         {

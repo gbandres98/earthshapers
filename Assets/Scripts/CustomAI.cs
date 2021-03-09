@@ -7,7 +7,7 @@ public class CustomAI : MonoBehaviour
     [Header("Pathfinding")]
     public Transform target;
     public float NextWaypointDistance = .3f;
-    public float PathUpdateFrequency = 1f;
+    public float PathUpdateInterval = 1f;
 
     [Header("Behaviour")]
     public float JumpSlopeRequirement = .5f;
@@ -18,13 +18,15 @@ public class CustomAI : MonoBehaviour
     private BaseCharacter character;
     private Transform t;
     private Vector3 fallback_target_pos;
+    private GlobalMovementMesh globalMovementMesh;
 
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         character = GetComponent<BaseCharacter>();
         t = GetComponent<Transform>();
-        InvokeRepeating("UpdatePath", 0f, PathUpdateFrequency);
+        InvokeRepeating("UpdatePath", 0f, PathUpdateInterval);
+        globalMovementMesh = GlobalMovementMesh.Instance;
     }
 
     public void ChangeObjective(float x, float y)
@@ -35,10 +37,9 @@ public class CustomAI : MonoBehaviour
 
     private void UpdatePath()
     {
-        GlobalMovementMesh mesh = GlobalMovementMesh.Instance;
-        MovementMeshNode x = mesh.FindClosestNode(t.position);
-        MovementMeshNode y = mesh.FindClosestNode(target != null ? target.position : fallback_target_pos);
-        List<MovementMeshNode> l = mesh.GetRoute(x, y);
+        MovementMeshNode x = globalMovementMesh.FindClosestNode(t.position);
+        MovementMeshNode y = globalMovementMesh.FindClosestNode(target != null ? target.position : fallback_target_pos);
+        List<MovementMeshNode> l = globalMovementMesh.GetRoute(x, y);
         if (l != null)
         {
             path = new List<Vector2>();
@@ -52,7 +53,7 @@ public class CustomAI : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (path == null)
+        if (path == null || path.Count < 2)
         {
             return;
         }
@@ -66,7 +67,7 @@ public class CustomAI : MonoBehaviour
             character.Move(0);
             return;
         }
-        bool isGrounded = character.GetIsGrounded();
+        bool isGrounded = character.IsGrounded;
         Vector2 nodePosition = path[currentWaypoint] + Vector2.up;
         Vector2 aiCenter = rb.position - new Vector2(0, 0.5f);
         Vector2 vector = nodePosition - aiCenter;
