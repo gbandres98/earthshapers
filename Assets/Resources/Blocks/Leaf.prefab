@@ -17,6 +17,9 @@ MonoBehaviour:
   placingOffset: {x: 0, y: 0}
   toolTypeNeeded: -1
   breaksWholeTree: 0
+  treeLayer:
+    serializedVersion: 2
+    m_Bits: 512
 --- !u!1001 &1297268416070315808
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -173,7 +176,7 @@ PrefabInstance:
     - target: {fileID: 8072222510999506062, guid: 16dbf18c56704ee4ebdf62af363f3e73,
         type: 3}
       propertyPath: m_Layer
-      value: 8
+      value: 9
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 746585272205019502, guid: 16dbf18c56704ee4ebdf62af363f3e73, type: 3}

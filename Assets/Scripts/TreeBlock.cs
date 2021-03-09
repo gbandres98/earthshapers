@@ -3,6 +3,16 @@
 public class TreeBlock : BaseBlock
 {
     public bool breaksWholeTree = false;
+    public LayerMask treeLayer;
+    private bool markedToDestroy;
+
+    private void Update()
+    {
+        if (markedToDestroy)
+        {
+            Die();
+        }
+    }
 
     public override void Die()
     {
@@ -10,25 +20,25 @@ public class TreeBlock : BaseBlock
 
         if (breaksWholeTree)
         {
-            RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.up, 0.5f);
+            RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.up, 0.6f, treeLayer);
             if (hit && hit.collider.GetComponent<TreeBlock>())
             {
                 hit.collider.GetComponent<TreeBlock>().DieForced();
             }
 
-            hit = Physics2D.Raycast(transform.position, Vector2.down, 0.5f);
+            hit = Physics2D.Raycast(transform.position, Vector2.down, 0.6f, treeLayer);
             if (hit && hit.collider.GetComponent<TreeBlock>())
             {
                 hit.collider.GetComponent<TreeBlock>().DieForced();
             }
 
-            hit = Physics2D.Raycast(transform.position, Vector2.left, 0.5f);
+            hit = Physics2D.Raycast(transform.position, Vector2.left, 0.6f, treeLayer);
             if (hit && hit.collider.GetComponent<TreeBlock>())
             {
                 hit.collider.GetComponent<TreeBlock>().DieForced();
             }
 
-            hit = Physics2D.Raycast(transform.position, Vector2.right, 0.5f);
+            hit = Physics2D.Raycast(transform.position, Vector2.right, 0.6f, treeLayer);
             if (hit && hit.collider.GetComponent<TreeBlock>())
             {
                 hit.collider.GetComponent<TreeBlock>().DieForced();
@@ -45,6 +55,6 @@ public class TreeBlock : BaseBlock
     public void DieForced()
     {
         breaksWholeTree = true;
-        Die();
+        markedToDestroy = true;
     }
 }
