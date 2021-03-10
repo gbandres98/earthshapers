@@ -33,13 +33,13 @@ public class BlockManager : MonoBehaviour
         {
             return false;
         }
-
-        GameObject block = Instantiate(Resources.Load($"Blocks/{Game.Items[itemID]}") as GameObject);
-        block.transform.parent = transform;
-
+        GameObject block = Resources.Load($"Blocks/{Game.Items[itemID]}") as GameObject;
         Vector3 offset = block.GetComponent<BaseBlock>().placingOffset;
         block.transform.position = GetBlockCenterUnderMouse() + offset;
-
+        GameObject blockInstance = Instantiate(block);
+        blockInstance.transform.parent = transform;
+        MovementMeshNode n = blockInstance.GetComponent<MovementMeshNode>();
+        n.RecalculateNeighbours();
         return true;
     }
 
