@@ -15,6 +15,10 @@ public class GlobalMovementMesh : MonoBehaviour
     {
         allNodes.Add(n);
     }
+    public void RemoveNode(MovementMeshNode n)
+    {
+        _ = allNodes.Remove(n);
+    }
     public MovementMeshNode GetNode(int i)
     {
         return (i >= allNodes.Count) ? null : allNodes[i];

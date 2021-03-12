@@ -42,6 +42,7 @@ public class BaseBlock : MonoBehaviour
             GameObject item = Instantiate(Resources.Load<GameObject>($"Items/{Game.Items[itemID]}_Item"));
             item.transform.position = transform.position;
             MovementMeshNode n = GetComponent<MovementMeshNode>();
+            GlobalMovementMesh.Instance.RemoveNode(n);
             n.RecalculateNeighbours();
         }
     }
