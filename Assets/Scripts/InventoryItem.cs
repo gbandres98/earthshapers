@@ -15,10 +15,10 @@ public class InventoryItem
         this.toolType = toolType;
     }
 
-    public InventoryItem(InventoryItem item)
+    public InventoryItem(InventoryItem item, int amount)
     {
         this.itemID = item.itemID;
-        this.amount = item.amount;
+        this.amount = amount;
         this.stackSize = item.stackSize;
         this.toolType = item.toolType;
     }

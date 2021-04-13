@@ -13,15 +13,15 @@ public class BaseCharacter : MonoBehaviour
     public bool isRunning = false;
     private Rigidbody2D rb;
     private Animator animator;
+    public Inventory inventory;
     public bool IsGrounded { get; private set; }
     private bool jumpInCooldown = false;
     private float attackCooldownFinishTime;
-    public InventoryItem[] Inventory { get; } = new InventoryItem[6];
-
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
+        inventory = GetComponent<Inventory>();
     }
 
     private void Update()
@@ -88,20 +88,17 @@ public class BaseCharacter : MonoBehaviour
         {
             return;
         }
-
         attackCooldownFinishTime = Time.time + attackCooldown;
 
         BaseBlock target = BlockManager.Instance.GetBlockUnderMouse();
         if (target)
         {
-            for (int i = 0; i < Inventory.Length; i++)
+            if (inventory.HasItemType(target.toolTypeNeeded))
             {
-                if (Inventory[i] != null && Inventory[i].toolType == target.toolTypeNeeded)
-                {
-                    target.Damage(attackDamage * 5);
-                    return;
-                }
+                target.Damage(attackDamage * 5);
+                return;
             }
+
             target.Damage(attackDamage);
         }
     }
@@ -117,75 +114,11 @@ public class BaseCharacter : MonoBehaviour
 
         const int itemID = 1;
 
-        if (HasItem(itemID) && BlockManager.Instance.PlaceBlockUnderMouse(itemID))
+        if (inventory.HasItem(itemID, 1) && BlockManager.Instance.PlaceBlockUnderMouse(itemID))
         {
-            RemoveItem(itemID);
+            inventory.RemoveItem(itemID, 1);
         }
     }
-
-    public void AddItem(InventoryItem newItem)
-    {
-        foreach (InventoryItem item in Inventory)
-        {
-            if (
-                (item != null) &&
-                (item.itemID == newItem.itemID) &&
-                (item.amount < item.stackSize)
-                )
-            {
-                item.amount += newItem.amount;
-
-                if (item.amount > item.stackSize)
-                {
-                    newItem.amount = item.amount - item.stackSize;
-                    item.amount = item.stackSize;
-                    AddItem(newItem);
-                }
-
-                return;
-            }
-        }
-
-        for (int i = 0; i < Inventory.Length; i++)
-        {
-            if (Inventory[i] == null)
-            {
-                Inventory[i] = newItem;
-                return;
-            }
-        }
-    }
-
-    public bool HasItem(int itemID)
-    {
-        for (int i = 0; i < Inventory.Length; i++)
-        {
-            if (Inventory[i] != null && Inventory[i].itemID == itemID)
-            {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    public void RemoveItem(int itemID)
-    {
-        for (int i = 0; i < Inventory.Length; i++)
-        {
-            if (Inventory[i] != null && Inventory[i].itemID == itemID)
-            {
-                Inventory[i].amount--;
-                if (Inventory[i].amount <= 0)
-                {
-                    Inventory[i] = null;
-                }
-
-                return;
-            }
-        }
-    }
-
     private bool CheckGrounded()
     {
         return Physics2D.Raycast(transform.position, Vector2.down, 1.35f, groundLayer)

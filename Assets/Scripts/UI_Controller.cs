@@ -37,8 +37,8 @@ public class UI_Controller : MonoBehaviour
 
         if (hit && hit.collider.CompareTag("ItemPicker"))
         {
-            BaseCharacter character = hit.collider.gameObject.GetComponent<BaseCharacter>();
-
+            //BaseCharacter character = hit.collider.gameObject.GetComponent<BaseCharacter>();
+            GameObject character = hit.collider.gameObject;
             GameObject panel = Instantiate(Resources.Load<GameObject>("UI/UI_CharacterInfo"));
 
             panel.transform.SetParent(transform);
