@@ -40,14 +40,19 @@ public class CustomAI : MonoBehaviour
         MovementMeshNode x = globalMovementMesh.FindClosestNode(t.position);
         MovementMeshNode y = globalMovementMesh.FindClosestNode(target != null ? target.position : fallback_target_pos);
         List<MovementMeshNode> l = globalMovementMesh.GetRoute(x, y);
+        path = new List<Vector2>();
         if (l != null)
         {
-            path = new List<Vector2>();
             foreach (MovementMeshNode n in l)
             {
                 path.Add(n.GetPosition());
             }
             currentWaypoint = 0;
+        }
+        else
+        {
+            character.Move(0);
+            path = null;
         }
     }
 

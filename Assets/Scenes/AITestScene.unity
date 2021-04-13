@@ -4028,7 +4028,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: {fileID: 1969026006}
   NextWaypointDistance: 0.4
-  PathUpdateFrequency: 3
+  PathUpdateInterval: 1
   JumpSlopeRequirement: 0.5
 --- !u!1001 &1265471696
 PrefabInstance:
@@ -7115,12 +7115,12 @@ PrefabInstance:
     - target: {fileID: 8160580371127380094, guid: 165e77d7e134d3847ad7653ee2bb50a8,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 2.79
+      value: 3.44
       objectReference: {fileID: 0}
     - target: {fileID: 8160580371127380094, guid: 165e77d7e134d3847ad7653ee2bb50a8,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -5.55
+      value: -0.97
       objectReference: {fileID: 0}
     - target: {fileID: 8160580371127380094, guid: 165e77d7e134d3847ad7653ee2bb50a8,
         type: 3}
@@ -7235,12 +7235,12 @@ PrefabInstance:
     - target: {fileID: 9219885047796593125, guid: 5a99dea22936dc34eb523a3c089bf55f,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 3.57
+      value: -6.88
       objectReference: {fileID: 0}
     - target: {fileID: 9219885047796593125, guid: 5a99dea22936dc34eb523a3c089bf55f,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -8.54
+      value: -4.31
       objectReference: {fileID: 0}
     - target: {fileID: 9219885047796593125, guid: 5a99dea22936dc34eb523a3c089bf55f,
         type: 3}

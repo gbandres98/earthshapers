@@ -7,7 +7,7 @@ public class MovementMeshNode : MonoBehaviour
 
     private bool isValid = false;
     private Vector2 position;
-    private readonly List<MovementMeshNode> connected = new List<MovementMeshNode>();
+    private List<MovementMeshNode> connected = new List<MovementMeshNode>();
 
     public bool IsValid()
     {
@@ -41,9 +41,19 @@ public class MovementMeshNode : MonoBehaviour
         connected.Add(c);
     }
 
+    public void RemoveFromConnected(MovementMeshNode c)
+    {
+        _ = connected.Remove(c);
+    }
+
     private void Awake()
     {
         position = GetComponent<Transform>().position;
+        if (GlobalMovementMesh.Instance)
+        {
+            GlobalMovementMesh.Instance.AddNode(this);
+            RecalculateConnections();
+        }
     }
 
     private bool IsFree(float x, float y)
@@ -76,16 +86,20 @@ public class MovementMeshNode : MonoBehaviour
         node.AddToConnected(this);
     }
 
-    private void Start()
+    public void RecalculateConnections()
     {
-        #pragma warning disable IDE0055
-        if (!GlobalMovementMesh.Instance || !IsFree(0, 1) || !IsFree(0, 2))
+        isValid = false;
+        foreach (MovementMeshNode n in connected)
         {
-            isValid = false;
+            n.RemoveFromConnected(this);
+        }
+        connected = new List<MovementMeshNode>();
+        #pragma warning disable IDE0055
+        if (!IsFree(0, 1) || !IsFree(0, 2))
+        {
             return;
         }
         isValid = true;
-        GlobalMovementMesh.Instance.AddNode(this);
         AddConnectionIfValid( 1, 0, new List<Vector2>());
         AddConnectionIfValid(-1, 0, new List<Vector2>());
         // Need jump
@@ -111,5 +125,36 @@ public class MovementMeshNode : MonoBehaviour
         AddConnectionIfValid(-1,-1, new List<Vector2> { new Vector2(-1,2) });
         AddConnectionIfValid(-1,-2, new List<Vector2> { new Vector2(-1,2), new Vector2(-1,1) });
         AddConnectionIfValid(-1,-3, new List<Vector2> { new Vector2(-1,2), new Vector2(-1,1), new Vector2(-1,0) });
+        #pragma warning restore IDE0055
+    }
+
+    public void RecalculateNeighbours()
+    {
+        position = GetComponent<Transform>().position;
+        List<RaycastHit2D> neighbours = new List<RaycastHit2D>() {
+            BlockAtRelativePos(-2, 4), BlockAtRelativePos(-1, 4), BlockAtRelativePos( 0, 4), BlockAtRelativePos( 1, 4), BlockAtRelativePos( 2, 4),
+            BlockAtRelativePos(-2, 3), BlockAtRelativePos(-1, 3), BlockAtRelativePos( 0, 3), BlockAtRelativePos( 1, 3), BlockAtRelativePos( 2, 3),
+            BlockAtRelativePos(-2, 2), BlockAtRelativePos(-1, 2), BlockAtRelativePos( 0, 2), BlockAtRelativePos( 1, 2), BlockAtRelativePos( 2, 2),
+            BlockAtRelativePos(-2, 1), BlockAtRelativePos(-1, 1), BlockAtRelativePos( 0, 1), BlockAtRelativePos( 1, 1), BlockAtRelativePos( 2, 1),
+            BlockAtRelativePos(-2, 0), BlockAtRelativePos(-1, 0),                            BlockAtRelativePos( 1, 0), BlockAtRelativePos( 2, 0),
+            BlockAtRelativePos(-2,-1), BlockAtRelativePos(-1,-1), BlockAtRelativePos( 0,-1), BlockAtRelativePos( 1,-1), BlockAtRelativePos( 2,-1),
+            BlockAtRelativePos(-2,-2), BlockAtRelativePos(-1,-2), BlockAtRelativePos( 0,-2), BlockAtRelativePos( 1,-2), BlockAtRelativePos( 2,-2),
+            BlockAtRelativePos(-2,-3), BlockAtRelativePos(-1,-3), BlockAtRelativePos( 0,-3), BlockAtRelativePos( 1,-3), BlockAtRelativePos( 2,-3),
+            BlockAtRelativePos(-2,-4), BlockAtRelativePos(-1,-4), BlockAtRelativePos( 0,-4), BlockAtRelativePos( 1,-4), BlockAtRelativePos( 2,-4),
+        };
+        foreach (RaycastHit2D block in neighbours)
+        {
+            if (!block)
+            {
+            }
+            if (block)
+            {
+                MovementMeshNode node = block.collider.gameObject.GetComponent<MovementMeshNode>();
+                if (node)
+                {
+                    node.RecalculateConnections();
+                }
+            }
+        }
     }
 }

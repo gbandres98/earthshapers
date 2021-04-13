@@ -188,8 +188,8 @@ public class BaseCharacter : MonoBehaviour
 
     private bool CheckGrounded()
     {
-        return Physics2D.Raycast(transform.position, Vector2.down, 1.25f, groundLayer) ||
-            Physics2D.Raycast(transform.position + (Vector3.left / 1.9f), Vector2.down, 1.35f, groundLayer) ||
-            Physics2D.Raycast(transform.position + (Vector3.right / 1.9f), Vector2.down, 1.35f, groundLayer);
+        return Physics2D.Raycast(transform.position, Vector2.down, 1.35f, groundLayer)
+            || Physics2D.Raycast(transform.position + (Vector3.left * 0.48f), Vector2.down, 1.35f, groundLayer)
+            || Physics2D.Raycast(transform.position + (Vector3.right * 0.48f), Vector2.down, 1.35f, groundLayer);
     }
 }
