@@ -17,8 +17,8 @@ public class BaseItem : MonoBehaviour
         if (other.CompareTag("ItemPicker"))
         {
             Destroy(gameObject);
-            Inventory inv = other.gameObject.GetComponent<Inventory>();
-            inv.AddItem(new InventoryItem(Game.InventoryItems[itemID], 1));
+            Inventory inventory = other.gameObject.GetComponent<Inventory>();
+            inventory.AddItem(new InventoryItem(Game.InventoryItems[itemID], 1));
         }
     }
 

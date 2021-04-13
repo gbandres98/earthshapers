@@ -13,7 +13,7 @@ public class BaseCharacter : MonoBehaviour
     public bool isRunning = false;
     private Rigidbody2D rb;
     private Animator animator;
-    public Inventory inv;
+    public Inventory inventory;
     public bool IsGrounded { get; private set; }
     private bool jumpInCooldown = false;
     private float attackCooldownFinishTime;
@@ -21,7 +21,7 @@ public class BaseCharacter : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
-        inv = GetComponent<Inventory>();
+        inventory = GetComponent<Inventory>();
     }
 
     private void Update()
@@ -93,7 +93,7 @@ public class BaseCharacter : MonoBehaviour
         BaseBlock target = BlockManager.Instance.GetBlockUnderMouse();
         if (target)
         {
-            if (inv.HasItemType(target.toolTypeNeeded))
+            if (inventory.HasItemType(target.toolTypeNeeded))
             {
                 target.Damage(attackDamage * 5);
                 return;
@@ -114,9 +114,9 @@ public class BaseCharacter : MonoBehaviour
 
         const int itemID = 1;
 
-        if (inv.HasItem(itemID, 1) && BlockManager.Instance.PlaceBlockUnderMouse(itemID))
+        if (inventory.HasItem(itemID, 1) && BlockManager.Instance.PlaceBlockUnderMouse(itemID))
         {
-            inv.RemoveItem(itemID, 1);
+            inventory.RemoveItem(itemID, 1);
         }
     }
     private bool CheckGrounded()
