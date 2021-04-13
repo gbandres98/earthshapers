@@ -2,7 +2,12 @@ using UnityEngine;
 
 public class Inventory : MonoBehaviour
 {
-    private readonly InventoryItem[] inventory = new InventoryItem[6];
+    public int size = 6;
+    public InventoryItem[] inventory;
+    public void Awake()
+    {
+        inventory = new InventoryItem[size];
+    }
     public void AddItem(InventoryItem newItem)
     {
         foreach (InventoryItem item in inventory)
@@ -67,6 +72,18 @@ public class Inventory : MonoBehaviour
             }
         }
 
+        return false;
+    }
+
+    public bool HasItemType(ToolTypeEnum type)
+    {
+        for (int i = 0; i < inventory.Length; i++)
+        {
+            if (inventory[i] != null && inventory[i].toolType == type)
+            {
+                return true;
+            }
+        }
         return false;
     }
 

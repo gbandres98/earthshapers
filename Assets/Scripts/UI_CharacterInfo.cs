@@ -14,7 +14,7 @@ public class UI_CharacterInfo : MonoBehaviour
 
     private void Update()
     {
-        GetComponentInChildren<UI_Inventory>().inventoryItems = playerTransform.GetComponent<BaseCharacter>().Inventory;
+        GetComponentInChildren<UI_Inventory>().inventoryItems = playerTransform.GetComponent<Inventory>().inventory;
 
         Vector3 newPosition = UI_Controller.Instance.WorldToCanvasPoint(playerTransform.transform.position);
         newPosition.z += 360f;
