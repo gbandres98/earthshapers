@@ -23,12 +23,12 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetMouseButton(0) && MouseDistanceToPlayer() < 200f)
         {
-            character.PrimaryAttack();
+            character.AttackBlock(BlockManager.Instance.GetBlockUnderMouse());
         }
 
         if (Input.GetMouseButton(1) && MouseDistanceToPlayer() > 15f && MouseDistanceToPlayer() < 200f)
         {
-            character.SecondaryAttack();
+            _ = character.PlaceBlock(1, BlockManager.Instance.GetBlockCenterUnderMouse());
         }
     }
 

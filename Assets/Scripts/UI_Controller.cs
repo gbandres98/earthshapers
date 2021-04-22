@@ -21,18 +21,24 @@ public class UI_Controller : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0))
         {
+            ToggleCharacterInfoPanel();
+        }
+    }
+
+    private void ToggleCharacterInfoPanel()
+    {
+        if (characterInfoPanelOpen)
+        {
+            CloseCharacterInfoPanel();
+        }
+        else
+        {
             OpenCharacterInfoPanel();
         }
     }
 
     private void OpenCharacterInfoPanel()
     {
-        if (characterInfoPanelOpen)
-        {
-            CloseCharacterInfoPanel();
-            return;
-        }
-
         RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
 
         if (hit && hit.collider.CompareTag("ItemPicker"))

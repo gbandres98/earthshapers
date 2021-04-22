@@ -17,7 +17,7 @@ TagManager:
   - 
   - Ground
   - Tree
-  - 
+  - Dwarf
   - 
   - 
   - 
@@ -45,4 +45,7 @@ TagManager:
     locked: 0
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Front
+    uniqueID: 1467896267
     locked: 0

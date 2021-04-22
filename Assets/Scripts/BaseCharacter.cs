@@ -7,6 +7,7 @@ public class BaseCharacter : MonoBehaviour
     public LayerMask groundLayer;
     public float jumpForce = 9.0f;
     public float attackCooldown = 1.0f;
+    public float jumpCooldown = 0.5f;
     public float attackDamage = 4;
 
     [HideInInspector]
@@ -15,7 +16,7 @@ public class BaseCharacter : MonoBehaviour
     private Animator animator;
     public Inventory inventory;
     public bool IsGrounded { get; private set; }
-    private bool jumpInCooldown = false;
+    private float jumpCooldownFinishTime;
     private float attackCooldownFinishTime;
     private void Awake()
     {
@@ -69,29 +70,23 @@ public class BaseCharacter : MonoBehaviour
 #pragma warning disable IDE0058
     public void Jump()
     {
-        if (IsGrounded && !jumpInCooldown)
+        if (Time.time < jumpCooldownFinishTime)
+        {
+            return;
+        }
+
+        jumpCooldownFinishTime = Time.time + jumpCooldown;
+
+        if (IsGrounded)
         {
             rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
-            jumpInCooldown = true;
-            System.Threading.Tasks.Task.Factory.StartNew(() =>
-            {
-                System.Threading.Thread.Sleep(100);
-                jumpInCooldown = false;
-            });
         }
     }
 #pragma warning restore IDE0058
 
-    public void PrimaryAttack()
+    public void AttackBlock(BaseBlock target)
     {
-        if (Time.time < attackCooldownFinishTime)
-        {
-            return;
-        }
-        attackCooldownFinishTime = Time.time + attackCooldown;
-
-        BaseBlock target = BlockManager.Instance.GetBlockUnderMouse();
-        if (target)
+        if (target && (Time.time > attackCooldownFinishTime))
         {
             if (inventory.HasItemType(target.toolTypeNeeded))
             {
@@ -103,21 +98,22 @@ public class BaseCharacter : MonoBehaviour
         }
     }
 
-    public void SecondaryAttack()
+    public bool PlaceBlock(int itemID, Vector3 position)
     {
         if (Time.time < attackCooldownFinishTime)
         {
-            return;
+            return false;
         }
 
         attackCooldownFinishTime = Time.time + attackCooldown;
 
-        const int itemID = 1;
-
-        if (inventory.HasItem(itemID, 1) && BlockManager.Instance.PlaceBlockUnderMouse(itemID))
+        if (inventory.HasItem(itemID, 1) && BlockManager.Instance.PlaceBlock(itemID, position))
         {
             inventory.RemoveItem(itemID, 1);
+            return true;
         }
+
+        return false;
     }
     private bool CheckGrounded()
     {

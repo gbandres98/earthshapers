@@ -10,6 +10,11 @@ public class UI_CharacterInfo : MonoBehaviour
 
     private void Start()
     {
+        AI_Controller ai = playerTransform.GetComponent<AI_Controller>();
+        if (ai)
+        {
+            GetComponentInChildren<UI_TaskDebugInfo>().ai = ai;
+        }
     }
 
     private void Update()

@@ -15,8 +15,7 @@ GameObject:
   - component: {fileID: 9219885047796593121}
   - component: {fileID: 9219885047796593122}
   - component: {fileID: 9219885047796593123}
-  - component: {fileID: 3528737474178317863}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: BaseCharacter
   m_TagString: ItemPicker
   m_Icon: {fileID: 0}
@@ -153,6 +152,7 @@ MonoBehaviour:
     m_Bits: 256
   jumpForce: 40
   attackCooldown: 0.5
+  jumpCooldown: 0.5
   attackDamage: 4
   isRunning: 0
 --- !u!95 &9219885047796593122

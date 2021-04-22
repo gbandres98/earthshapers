@@ -13,7 +13,12 @@ public class BlockManager : MonoBehaviour
 
     public BaseBlock GetBlockUnderMouse()
     {
-        RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
+        return GetBlockAtPosition(Camera.main.ScreenToWorldPoint(Input.mousePosition));
+    }
+
+    public BaseBlock GetBlockAtPosition(Vector3 position)
+    {
+        RaycastHit2D hit = Physics2D.Raycast(position, Vector2.zero);
 
         if (hit)
         {
@@ -29,17 +34,28 @@ public class BlockManager : MonoBehaviour
 
     public bool PlaceBlockUnderMouse(int itemID)
     {
-        if (GetBlockUnderMouse())
+        return PlaceBlock(itemID, GetBlockCenterUnderMouse());
+    }
+
+    public bool PlaceBlock(int itemID, Vector3 position)
+    {
+        if (GetBlockAtPosition(position))
         {
             return false;
         }
+
         GameObject block = Resources.Load($"Blocks/{Game.Items[itemID]}") as GameObject;
-        Vector3 offset = block.GetComponent<BaseBlock>().placingOffset;
-        block.transform.position = GetBlockCenterUnderMouse() + offset;
+        block.transform.position = position;
+
         GameObject blockInstance = Instantiate(block);
         blockInstance.transform.parent = transform;
-        MovementMeshNode n = blockInstance.GetComponent<MovementMeshNode>();
-        n.RecalculateNeighbours();
+
+        MovementMeshNode movementMeshNode = blockInstance.GetComponent<MovementMeshNode>();
+        if (movementMeshNode)
+        {
+            movementMeshNode.RecalculateNeighbours();
+        }
+
         return true;
     }
 

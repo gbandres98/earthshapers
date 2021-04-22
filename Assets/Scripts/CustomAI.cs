@@ -19,6 +19,7 @@ public class CustomAI : MonoBehaviour
     private Transform t;
     private Vector3 fallback_target_pos;
     private GlobalMovementMesh globalMovementMesh;
+    private bool hasTarget;
 
     private void Start()
     {
@@ -29,14 +30,25 @@ public class CustomAI : MonoBehaviour
         globalMovementMesh = GlobalMovementMesh.Instance;
     }
 
-    public void ChangeObjective(float x, float y)
+    public void ChangeObjective(Vector3 objective)
     {
         target = null;
-        fallback_target_pos = new Vector3(x, y, 0);
+        fallback_target_pos = objective;
+        hasTarget = true;
+    }
+
+    public void StopPathing()
+    {
+        hasTarget = false;
     }
 
     private void UpdatePath()
     {
+        if (!hasTarget)
+        {
+            return;
+        }
+
         MovementMeshNode x = globalMovementMesh.FindClosestNode(t.position);
         MovementMeshNode y = globalMovementMesh.FindClosestNode(target != null ? target.position : fallback_target_pos);
         List<MovementMeshNode> l = globalMovementMesh.GetRoute(x, y);
@@ -66,7 +78,7 @@ public class CustomAI : MonoBehaviour
         {
             currentWaypoint = 1;
         }
-        if (currentWaypoint >= path.Count)
+        if (!hasTarget || currentWaypoint >= path.Count)
         {
             // Reached goal, stop
             character.Move(0);
