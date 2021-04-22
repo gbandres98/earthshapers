@@ -35,12 +35,12 @@ PrefabInstance:
     - target: {fileID: 3249631050329809020, guid: 16dbf18c56704ee4ebdf62af363f3e73,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 99.5
       objectReference: {fileID: 0}
     - target: {fileID: 3249631050329809020, guid: 16dbf18c56704ee4ebdf62af363f3e73,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 11.5
       objectReference: {fileID: 0}
     - target: {fileID: 3249631050329809020, guid: 16dbf18c56704ee4ebdf62af363f3e73,
         type: 3}
@@ -93,6 +93,11 @@ PrefabInstance:
       propertyPath: m_WasSpriteAssigned
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6333226296133400652, guid: 16dbf18c56704ee4ebdf62af363f3e73,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 18c0fac09a4ec804287a285d08d8da49, type: 2}
     - target: {fileID: 7662053978611481006, guid: 16dbf18c56704ee4ebdf62af363f3e73,
         type: 3}
       propertyPath: m_SpriteTilingProperty.pivot.x
@@ -137,6 +142,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Layer
       value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 8072222510999506062, guid: 16dbf18c56704ee4ebdf62af363f3e73,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 16dbf18c56704ee4ebdf62af363f3e73, type: 3}

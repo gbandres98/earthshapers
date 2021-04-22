@@ -1,10 +1,13 @@
 ﻿using System.IO;
 using System.Text;
 using System;
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 public class WorldGen : MonoBehaviour
 {
+    public static WorldGen Instance;
     public int seed = 0;
     public int worldWidth = 500;
     public int worldHeight = 100;
@@ -17,6 +20,9 @@ public class WorldGen : MonoBehaviour
     private float yHillSeed;
     private float xCaveSeed;
     private float yCaveSeed;
+    private Tilemap map;
+    private bool readyToBatch = false;
+    private List<GameObject> blockArr;
     public const long primeBase = 989999;
     private void SetSeeds()
     {
@@ -25,16 +31,24 @@ public class WorldGen : MonoBehaviour
         xCaveSeed = yHillSeed * yHillSeed % primeBase;
         yCaveSeed = xCaveSeed * xCaveSeed % primeBase;
     }
-
-    private void Start()
+    public void Awake()
     {
+        Instance = this;
+        map = GetComponent<Tilemap>();
         SetSeeds();
         int[,] worldMatrix = new int[worldWidth, worldHeight];
         Fill(worldMatrix, 1);
         GenerateCaves(worldMatrix);
-        WriteFile("./map1.txt", worldMatrix);
         GenerateHills(worldMatrix);
-        WriteFile("./map2.txt", worldMatrix);
+        DrawMap(worldMatrix);
+    }
+
+    public void Update()
+    {
+        if (readyToBatch)
+        {
+            StaticBatchingUtility.Combine(blockArr.ToArray(), this.gameObject);
+        }
     }
 
     private void Fill(int[,] matrix, int value)
@@ -101,6 +115,38 @@ public class WorldGen : MonoBehaviour
             {
                 float sample = Mathf.PerlinNoise(xCaveSeed + (i * caveStretchFactor * 2f), yCaveSeed + (j * caveStretchFactor * 0.7f));
                 worldMatrix[j, i] = sample > 0.6f ? 0 : 1;
+            }
+        }
+    }
+    public void DrawMap(int[,] worldMatrix)
+    {
+        blockArr = new List<GameObject>();
+        for (int i = 0; i < worldWidth; i++)
+        {
+            for (int j = 0; j < worldHeight; j++)
+            {
+                if (worldMatrix[i, j] == 1)
+                {
+                    GameObject block = Resources.Load($"Blocks/{Game.Items[1]}") as GameObject;
+                    block.transform.position = map.GetCellCenterWorld(new Vector3Int(i, j, 0));
+                    GameObject blockInstance = Instantiate(block);
+                    blockInstance.transform.parent = transform;
+                    blockArr.Add(blockInstance);
+                }
+            }
+        }
+        readyToBatch = true;
+    }
+    public void DrawSquareTest()
+    {
+        for (int i = 0; i < 10; i++)
+        {
+            for (int j = 0; j < 10; j++)
+            {
+                GameObject block = Resources.Load($"Blocks/{Game.Items[1]}") as GameObject;
+                block.transform.position = map.GetCellCenterWorld(new Vector3Int(i, j, 0));
+                GameObject blockInstance = Instantiate(block);
+                blockInstance.transform.parent = transform;
             }
         }
     }

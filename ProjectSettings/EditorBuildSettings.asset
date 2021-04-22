@@ -4,5 +4,11 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 0
+    path: Assets/Scenes/GuilleDevScene.unity
+    guid: e8ee89330904da844867e74ee50a14d5
+  - enabled: 1
+    path: Assets/Scenes/worldGenTest.unity
+    guid: 9c4b57af9e7790149827cadeabc9eeff
   m_configObjects: {}
