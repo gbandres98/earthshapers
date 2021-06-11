@@ -9,6 +9,7 @@ public static class Game
         {2, "Wood"},
         {3, "TreeWood"},
         {4, "Leaf"},
+        {5, "Stone"},
         {101, "Table"},
         {251, "Shovel"},
         {252, "Axe"}

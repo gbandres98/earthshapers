@@ -295,11 +295,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4ec28ef40643c641bdf1f5bc15af880, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  seed: 147
-  worldWidth: 100
-  worldHeight: 30
-  reservedBottom: 5
-  reservedTop: 5
+  seed: 226
+  worldWidth: 500
+  worldHeight: 100
+  reservedBottom: 40
+  reservedTop: 10
   hillStretchFactor: 0.01
   caveStretchFactor: 0.05
 --- !u!4 &1950029277
